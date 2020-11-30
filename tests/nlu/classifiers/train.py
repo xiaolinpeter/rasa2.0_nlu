@@ -5,7 +5,6 @@
 @contact: xiaolin_peter@163.com
 @File train.py
 '''
-
 from rasa.nlu import train
 from rasa.nlu.config import RasaNLUModelConfig
 from rasa.nlu.components import ComponentBuilder
@@ -42,9 +41,7 @@ async def train_persist_load_with_composite_entities(classifier_params, componen
 
     assert trainer.pipeline
     assert trained.pipeline
-
     loaded = Interpreter.load(persisted_path, component_builder)
-
     assert loaded.pipeline
     text = "感冒发烧了怎么办"
     print("--------------------------------------------------")
@@ -60,5 +57,5 @@ if __name__ == '__main__':
     # test_train_model_checkpointing_peter()
     classifier_params = {RANDOM_SEED: 1, EPOCHS: 1, BILOU_FLAG: False}
     loop = asyncio.get_event_loop()
-    res = loop.run_until_complete(train_persist_load_with_composite_entities(classifier_params,                                                                      ComponentBuilder(), "../models"))
+    res = loop.run_until_complete(train_persist_load_with_composite_entities(classifier_params,ComponentBuilder(), "../models"))
     loop.close()
