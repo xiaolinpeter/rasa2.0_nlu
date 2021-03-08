@@ -25,12 +25,11 @@ async def train_persist_load_with_composite_entities(classifier_params, componen
     #     "WhitespaceTokenizer", "CountVectorsFeaturizer", "DIETClassifier"
     # )
 
-    pipeline = as_pipeline("MitieNLP", "JiebaTokenizer", "MitieEntityExtractor",
-                           "MitieFeaturizer", "SklearnIntentClassifier")
+    pipeline = as_pipeline("MitieNLP", "JiebaTokenizer", "MitieEntityExtractor", "MitieFeaturizer", "SklearnIntentClassifier")
     assert pipeline[4]["name"] == "SklearnIntentClassifier"
     pipeline[4].update(classifier_params)
 
-    _config = RasaNLUModelConfig({"pipeline": pipeline, "language": "cn"})
+    _config = RasaNLUModelConfig({"pipeline": pipeline, "language": "zh"})
 
     (trainer, trained, persisted_path) = await train(
         _config,
@@ -57,5 +56,6 @@ if __name__ == '__main__':
     # test_train_model_checkpointing_peter()
     classifier_params = {RANDOM_SEED: 1, EPOCHS: 1, BILOU_FLAG: False}
     loop = asyncio.get_event_loop()
-    res = loop.run_until_complete(train_persist_load_with_composite_entities(classifier_params,ComponentBuilder(), "../models"))
+    res = loop.run_until_complete(
+        train_persist_load_with_composite_entities(classifier_params, ComponentBuilder(), "../models"))
     loop.close()
